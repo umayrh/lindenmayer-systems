@@ -3,11 +3,15 @@ from turtle import *
 def make_plot(turtle_str: str,
               delta: int,
               step_length: int = 10,
-              colors=None):
-    if colors is None:
-        colors = ['red', 'yellow']
-    color(*colors)
-    begin_fill()
+              initial_x: int = 0,
+              initial_y: int = 0,
+              drawing_speed = 10):
+    clearscreen()
+    penup()
+    setx(initial_x)
+    sety(initial_y)
+    speed(drawing_speed)
+
     for letter in turtle_str:
         if letter == 'F':
             pendown()
@@ -21,5 +25,4 @@ def make_plot(turtle_str: str,
             right(delta)
         else:
             raise RuntimeError("Bad turtle string format")
-    end_fill()
     done()

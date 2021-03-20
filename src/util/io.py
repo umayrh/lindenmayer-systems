@@ -18,9 +18,10 @@ def check_axiom_syntax(turtle_str: str) -> bool:
     return bool(reg.match(turtle_str))
 
 def check_rule_syntax(turtle_str: str) -> bool:
-    if not turtle_str:
+    if not turtle_str or len(turtle_str) < 3:
         return False
     reg = re.compile('^[fF+-=]+$')
+    print(f'working on: {turtle_str}')
     return bool(reg.match(turtle_str)) and turtle_str[1] == "=" and turtle_str.count("=") == 1
 
 def validate_args(axiom: str, productions: list[str], iterations: int, delta: int):

@@ -9,3 +9,9 @@ explores the book itself, this repository contains code that explores different 
 * generating images of L-system
 
 [The Algorithmic Beauty of Plants]: http://algorithmicbotany.org/papers/#abop
+
+## References
+# https://docs.python.org/3/library/turtle.html#turtle.pendown
+* https://michael0x2a.com/blog/turtle-examples
+* https://nb.paulbutler.org/l-systems/
+* https://matplotlib.org/2.0.2/users/transforms_tutorial.html

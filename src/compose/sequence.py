@@ -1,5 +1,5 @@
 
-def _develop_sequence(axiom: str, productions: map[str, str], iterations: int) -> str:
+def _develop_sequence(axiom: str, productions: dict[str, str], iterations: int) -> str:
     if iterations <= 0:
         return axiom
     corollary = ""
@@ -8,8 +8,8 @@ def _develop_sequence(axiom: str, productions: map[str, str], iterations: int) -
         corollary += productions[letter] if letter in productions else letter
     return _develop_sequence(corollary, productions, iterations - 1)
 
-def _make_rule_map(productions: list[str]) -> map[str, str]:
-    productions_map = {}
+def _make_rule_map(productions: list[str]) -> dict[str, str]:
+    productions_map: dict[str, str] = {}
     for production in productions:
         rules_sides = production.split("=")
         productions_map[rules_sides[0]] = rules_sides[1]

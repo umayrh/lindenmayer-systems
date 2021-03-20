@@ -18,7 +18,7 @@ class TestUtil(unittest.TestCase):
             self.assertFalse(check_axiom_syntax(axiom))
 
     def test_check_rule_syntax(self):
-        correct_rules = ["F", "ff", "+++", "----", "fF", "F+F", "F+F-f-F"]
+        correct_rules = ["F=F", "F=ff", "f=+++", "f=----", "f=f+F", "F=F+F", "f=F+F-f-F"]
         for rule in correct_rules:
             self.assertTrue(check_rule_syntax(rule))
         incorrect_rules = ["G=F", "l=f", "++F", "A=-$--", "f=fF|", "F=F=", "F#F@f*F"]
@@ -27,20 +27,20 @@ class TestUtil(unittest.TestCase):
 
     def test_validate_args(self):
         axioms = ["F", "F+f", "F+F-f-f"]
-        production = ["F=F+F", "F=f-F+f", "F=FF-ff"]
+        production = [["F=F+F"], ["F=f-F+f"], ["F=FF-ff"]]
         iterations = [2, 3, 90]
         delta = [0, 90, 180]
-        for idx in 0..length(axioms):
+        for idx in range(len(axioms)):
             try:
                 validate_args(axioms[idx], production[idx], iterations[idx], delta[idx])
             except:
                 self.fail("Expected valid arguments")
 
         axioms = ["G", "F+f", "F+F-f-f", "FFFFF"]
-        production = ["F=F+F", "Ff-F+f", "F=FF-ff", "F=FFF-ff++f"]
+        production = [["F=F+F"], ["Ff-F+f"], ["F=FF-ff"], ["F=FFF-ff++f"]]
         iterations = [2, 3, -9, 90]
         delta = [0, 90, 180, 270]
-        for idx in 0..len(axioms):
+        for idx in range(len(axioms)):
             try:
                 validate_args(axioms[idx], production[idx], iterations[idx], delta[idx])
                 self.fail("Expected invalid arguments")
