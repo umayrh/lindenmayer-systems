@@ -46,12 +46,14 @@ def make_gif(image_list: List[Path], output_path: Path, **options):
 
     if not output_path.name.lower().endswith('.gif'):
         output_path = output_path / Path('.gif')
-    image_list: List[ImageFile] = [PIL.Image.open(str(_)) for _ in image_list]
-    im = image_list.pop(0)
+    image_file_list: List[ImageFile] = [PIL.Image.open(str(_)) for _ in image_list]
+
+    im = image_file_list.pop(0)
     fps = options.get('fps', options.get('FPS', 10))
-    im.save(output_path, format='gif', save_all=True, append_images=image_list,
+    im.save(output_path, format='gif', save_all=True, append_images=image_file_list,
             duration=options.get('duration', int(1000 / fps)),
             loop=options.get('loop', 0))
+    [_.close() for _ in image_file_list]
 
 
 class GIFCreator:
@@ -92,7 +94,8 @@ class GIFCreator:
         return self.__temp_dir
 
     def configure(self, **options):
-        gif_class_members = (_ for _ in dir(GIFCreator) if not _.startswith('_') and not callable(getattr(GIFCreator, _)))
+        gif_class_members = (_ for _ in dir(GIFCreator)
+                             if not _.startswith('_') and not callable(getattr(GIFCreator, _)))
 
         for name, value in options.items():
             name = name.upper()
@@ -101,7 +104,8 @@ class GIFCreator:
             correct_type = type(getattr(self, name))
 
             # type check
-            assert isinstance(value, correct_type), TypeError(f'{name} type need {correct_type.__name__} not {type(value).__name__}')
+            assert isinstance(value, correct_type), \
+                TypeError(f'{name} type need {correct_type.__name__} not {type(value).__name__}')
 
             setattr(self, '_GIFCreator__' + name.lower(), value)
 
@@ -163,8 +167,8 @@ class GIFCreator:
             output_path = self.temp_dir / Path(eps_file.name + '.png')
             if output_path.exists():
                 continue
-            im: PIL.Image.Image = PIL.Image.open(str(eps_file))
-            im.save(output_path, 'png')
+            with PIL.Image.open(str(eps_file)) as im:
+                im.save(output_path, 'png')
 
     def make_gif(self, output_name=None, **options):
         """
@@ -191,8 +195,7 @@ class GIFCreator:
         fps = options.get('fps', options.get('FPS'))
         if fps is None:
             fps = 1000 / self.duration
-        make_gif(image_list, output_path,
-                 fps=fps, loop=0)
+        make_gif(image_list, output_path, fps=fps, loop=0)
         # open the output folder
         opener = "open" if sys.platform == "darwin" else "xdg-open"
         subprocess.call([opener, BASE_PATH])

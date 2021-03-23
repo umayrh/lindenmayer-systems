@@ -11,7 +11,12 @@ explores the book itself, this repository contains code that explores different 
 [The Algorithmic Beauty of Plants]: http://algorithmicbotany.org/papers/#abop
 
 ## References
+
+### L-systems
+* https://nb.paulbutler.org/l-systems/
+* https://andrew.fi/stories/nature/
+
+### Python
 * https://docs.python.org/3/library/turtle.html#turtle.pendown
 * https://michael0x2a.com/blog/turtle-examples
-* https://nb.paulbutler.org/l-systems/
 * https://matplotlib.org/2.0.2/users/transforms_tutorial.html
