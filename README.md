@@ -13,6 +13,9 @@ explores the book itself, this repository contains code that explores different 
 ## References
 
 ### L-systems
+* [L-systems survey](https://cs.uwaterloo.ca/~lila/pdfs/L-systems.pdf)
+* [The LIGNUM functional-structural tree model](https://sal.aalto.fi/publications/pdf-files/rper09.pdf)
+* http://blog.rabidgremlin.com/2014/12/09/procedural-content-generation-l-systems/
 * https://nb.paulbutler.org/l-systems/
 * https://andrew.fi/stories/nature/
 

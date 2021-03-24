@@ -9,14 +9,16 @@ class PlotProperties:
                  initial_y: int = 40,
                  step_size: int = 4,
                  drawing_speed: int = 10,
-                 fps: int = 5,
-                 name: str = "L-system Plot"):
+                 fps: int = 1,
+                 name: str = "L-system Plot",
+                 base_path: str = "../../data"):
         self.initial_x = initial_x
         self.initial_y = initial_y
         self.step_size = step_size
         self.drawing_speed = drawing_speed
         self.fps = fps
         self.name = name
+        self.base_path = base_path
 
 def _make_gif(_axiom: str,
               _productions: list[str],
@@ -27,6 +29,7 @@ def _make_gif(_axiom: str,
 
     duration = int(1000 / _properties.fps)
     class LsystemGif(GIFCreator):
+        BASE_PATH = _properties.base_path
         DURATION = duration
         def draw(self):
             make_plot(sequence_result,

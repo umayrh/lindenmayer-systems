@@ -16,26 +16,36 @@ Quadratic snowflake:
 
 """
 class TestMain(unittest.TestCase):
-
+    # ABOP Fig 1.6
     def test_make_gif_quad_koch_island(self):
         axiom = "F-F-F-F"
         productions = ["F=F-F+F+FF-F-F+F"]
         iterations = 3
         delta = 90
-        initial_x = -200
-        initial_y = 40
-        step_size = 4
         properties: PlotProperties = PlotProperties(
-            initial_x=initial_x, initial_y=initial_y,step_size=step_size)
+            initial_x=-200, initial_y=40, step_size=4, base_path="../data")
         properties.name = "Quadratic Koch island"
         _make_gif(axiom, productions, iterations, delta, properties)
 
+    # ABOP Fig 1.7a
+    def test_make_gif_quad_koch_island_2(self):
+        axiom = "F-F-F-F"
+        productions = ["F=F+FF-FF-F-F+F+FF-F-F+F+FF+FF-F"]
+        iterations = 2
+        delta = 90
+        properties: PlotProperties = PlotProperties(
+            initial_x=-200, initial_y=40, step_size=4, base_path="../data")
+        properties.name = "Quadratic Koch island - 2"
+        _make_gif(axiom, productions, iterations, delta, properties)
+
+    # ABOP Fig 1.7b
     def test_make_gif_quad_snow_flake(self):
         axiom = "-F"
         productions = ["F=F+F-F-F+F"]
-        iterations = 3
+        iterations = 4
         delta = 90
-        properties: PlotProperties = PlotProperties()
+        properties: PlotProperties = PlotProperties(
+            initial_x=-200, initial_y=400, step_size=8, fps=1, base_path="../data")
         properties.name = "Quadratic snowflake"
         _make_gif(axiom, productions, iterations, delta, properties)
 

@@ -17,8 +17,6 @@ from PIL import EpsImagePlugin
 #   convert input.gif -coalesce -scale 700x525 -fuzz 2% +dither -remap input.gif[0] -layers Optimize output.gif
 
 
-BASE_PATH = '../../data'
-
 def init(**options):
     # download ghostscript: https://www.ghostscript.com/download/gsdnld.html
     # install ghostscript, otherwise->{OSError} Unable to locate Ghostscript on paths
@@ -61,8 +59,8 @@ class GIFCreator:
                  '__temp_dir', '__duration',
                  '__name', '__is_running', '__counter', ]
 
+    BASE_PATH = '../../data'
     TEMP_DIR = Path(BASE_PATH) / Path('__temp__for_gif')
-
     # The time gap that you pick image after another on the recording. i.e.,
     # If the value is low, then you can get more source image, so your GIF has higher quality.
     DURATION = 100  # millisecond.  # 1000 / FPS
@@ -125,7 +123,7 @@ class GIFCreator:
         if not (hasattr(self, 'draw') and callable(getattr(self, 'draw'))):
             raise NotImplementedError('subclasses of GIFCreatorMixin must provide a draw() method')
 
-        regex = re.compile(fr"""{self.name}_[0-9]{{4}}""")
+        regex = re.compile(fr"""{self.name}_[0-9]{{5}}""")
 
         def wrap():
             self.draw()
@@ -162,13 +160,18 @@ class GIFCreator:
         image extension (PGM, PPM, GIF, PNG) is all compatible with tk.PhotoImage
         .. important:: you need to use ghostscript, see ``init()``
         """
-        for eps_file in [_ for _ in self.temp_dir.glob('*.*')
-                         if _.name.startswith(self.__name) and _.suffix.upper() == '.EPS']:
+        for eps_file in [_ for _ in self.temp_dir.glob('*.*') if _.suffix.upper() == '.EPS']:
             output_path = self.temp_dir / Path(eps_file.name + '.png')
             if output_path.exists():
                 continue
             with PIL.Image.open(str(eps_file)) as im:
                 im.save(output_path, 'png')
+
+    @staticmethod
+    def natural_sort(a_list: list):
+        convert = lambda text: int(text) if text.isdigit() else text.lower()
+        alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', os.path.basename(key))]
+        return a_list.sort(key=alphanum_key)
 
     def make_gif(self, output_name=None, **options):
         """
@@ -184,21 +187,22 @@ class GIFCreator:
         if not output_name.lower().endswith('.gif'):
             output_name += '.gif'
 
-        image_list = [_ for _ in self.temp_dir.glob(f'{self.__name}*.*') if
-                      (_.suffix.upper().endswith(('PGM', 'PPM', 'GIF', 'PNG')) and _.name.startswith(self.__name))
+        image_list = [_ for _ in self.temp_dir.glob(f'*.*') if
+                      (_.suffix.upper().endswith(('PGM', 'PPM', 'GIF', 'PNG')))
                       ]
         if not image_list:
-            sys.stderr.write(f'There is no image on the directory. {self.temp_dir / Path(self.__name + "*.*")}')
+            sys.stderr.write(f'No image found in {self.temp_dir}')
             return
-        output_path = Path(BASE_PATH) / Path(f'{output_name}')
+        self.natural_sort(image_list)
 
+        output_path = Path(self.BASE_PATH) / Path(f'{output_name}')
         fps = options.get('fps', options.get('FPS'))
         if fps is None:
             fps = 1000 / self.duration
         make_gif(image_list, output_path, fps=fps, loop=0)
         # open the output folder
         opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, BASE_PATH])
+        subprocess.call([opener, self.BASE_PATH])
 
     def _start(self):
         self.__is_running = True
@@ -211,7 +215,7 @@ class GIFCreator:
     def _save(self):
         if self.__is_running:
             # print(self.__counter)
-            output_file: Path = self.temp_dir / Path(f'{self.__name}_{self.__counter:04d}.eps')
+            output_file: Path = self.temp_dir / Path(f'{self.__counter:05d}.eps')
             if not output_file.exists():
                 # 0001.eps, 0002.eps ...
                 turtle.getcanvas().postscript(file=output_file)
