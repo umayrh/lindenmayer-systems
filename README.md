@@ -15,11 +15,16 @@ explores the book itself, this repository contains code that explores different 
 ### L-systems
 * [L-systems survey](https://cs.uwaterloo.ca/~lila/pdfs/L-systems.pdf)
 * [The LIGNUM functional-structural tree model](https://sal.aalto.fi/publications/pdf-files/rper09.pdf)
-* http://blog.rabidgremlin.com/2014/12/09/procedural-content-generation-l-systems/
-* https://nb.paulbutler.org/l-systems/
-* https://andrew.fi/stories/nature/
+* [Procedural content generation](http://blog.rabidgremlin.com/2014/12/09/procedural-content-generation-l-systems/)
+* [Fractal Generation with L-Systems](https://nb.paulbutler.org/l-systems/)
+* [Classic Iterated Function Systems](https://larryriddle.agnesscott.org/ifs/ifs.htm) 
+* [Tiling on the plane](paulbourke.net/geometry/tilingplane/)
+* [L-systems](https://jsantell.com/l-systems/)
+* [The Language of Nature](https://andrew.fi/stories/nature/)
 
 ### Python
-* https://docs.python.org/3/library/turtle.html#turtle.pendown
-* https://michael0x2a.com/blog/turtle-examples
-* https://matplotlib.org/2.0.2/users/transforms_tutorial.html
+* [L-Py: simulating L-systems in Python](https://github.com/openalea/lpy)
+* [OpenAlea: software for plant research](https://github.com/openalea)
+* [Python3 Turtle library](https://docs.python.org/3/library/turtle.html)
+* [Turtle library - examples](https://michael0x2a.com/blog/turtle-examples)
+* [Matplotlib tutorial](https://matplotlib.org/2.0.2/users/transforms_tutorial.html)

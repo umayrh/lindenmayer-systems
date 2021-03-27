@@ -4,6 +4,7 @@ import tkinter
 from typing import Callable, List
 
 from pathlib import Path
+import tempfile
 import re, os, sys, functools, subprocess, shutil
 
 import PIL.Image
@@ -48,8 +49,10 @@ def make_gif(image_list: List[Path], output_path: Path, **options):
 
     im = image_file_list.pop(0)
     fps = options.get('fps', options.get('FPS', 10))
+    duration = options.get('duration', int(1000 / fps))
+    print(f'# images: {len(image_file_list)}, duration: {duration}')
     im.save(output_path, format='gif', save_all=True, append_images=image_file_list,
-            duration=options.get('duration', int(1000 / fps)),
+            duration=duration,
             loop=options.get('loop', 0))
     [_.close() for _ in image_file_list]
 
@@ -60,7 +63,6 @@ class GIFCreator:
                  '__name', '__is_running', '__counter', ]
 
     BASE_PATH = '../../data'
-    TEMP_DIR = Path(BASE_PATH) / Path('__temp__for_gif')
     # The time gap that you pick image after another on the recording. i.e.,
     # If the value is low, then you can get more source image, so your GIF has higher quality.
     DURATION = 100  # millisecond.  # 1000 / FPS
@@ -71,7 +73,7 @@ class GIFCreator:
         self.__is_running = False
         self.__counter = 1
 
-        self.__temp_dir = temp_dir if temp_dir else self.TEMP_DIR
+        self.__temp_dir = temp_dir if temp_dir else Path(tempfile.mkdtemp(prefix='temp_for_gifs'))
         self.__duration = duration if duration else self.DURATION
 
         if not self.__temp_dir.exists():
