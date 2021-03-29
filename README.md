@@ -21,6 +21,16 @@ explores the book itself, this repository contains code that explores different 
 * [Tiling on the plane](paulbourke.net/geometry/tilingplane/)
 * [L-systems](https://jsantell.com/l-systems/)
 * [The Language of Nature](https://andrew.fi/stories/nature/)
+* [The language of languages](matt.might.net/articles/grammars-bnf-ebnf/)
+
+### Space-filling curves
+* [Space-Filling Curves: An Introduction with Applications in Scientific Computing](https://www.springer.com/gp/book/9783642310454)
+* [The Family Tree of Fractal Curves](www.fractalcurves.com/familytree/)
+* [Portraits from the Family Tree of Plane-filling Curves](archive.bridgesmathart.org/2019/bridges2019-123.pdf)
+* [Tendril Motifs for Space-Filling, Half-Domino Curves](archive.bridgesmathart.org/2016/bridges2016-119.pdf)
+* [“Outside-In” – On Doug McKenna’s Generalized Hilbert curves](https://spacefillingcurves.wordpress.com/2019/09/14/outside-in-doug-mckennas-meta-hilbert-curves/)
+* [The Science of Fractal Images](https://www.springer.com/gp/book/9781461283492)
+* [The Lighter Side of Mathematics](www.ams.org/books/spec/011/)
 
 ### Python
 * [L-Py: simulating L-systems in Python](https://github.com/openalea/lpy)

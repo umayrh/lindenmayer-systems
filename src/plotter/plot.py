@@ -13,7 +13,7 @@ def make_plot(turtle_str: str,
     speed(drawing_speed)
 
     for letter in turtle_str:
-        if letter == 'F':
+        if letter in ('F', 'L', 'R'):
             pendown()
             forward(step_length)
         elif letter == 'f':

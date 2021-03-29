@@ -9,7 +9,7 @@ class PlotProperties:
                  initial_y: int = 40,
                  step_size: int = 4,
                  drawing_speed: int = 10,
-                 fps: int = 1,
+                 fps: float = 1,
                  name: str = "L-system Plot",
                  base_path: str = "../../data"):
         self.initial_x = initial_x

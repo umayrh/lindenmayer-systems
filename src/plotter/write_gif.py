@@ -8,7 +8,6 @@ import tempfile
 import re, os, sys, functools, subprocess, shutil
 
 import PIL.Image
-from PIL.PngImagePlugin import PngImageFile
 from PIL.ImageFile import ImageFile
 from PIL import EpsImagePlugin
 
@@ -68,7 +67,7 @@ class GIFCreator:
     DURATION = 100  # millisecond.  # 1000 / FPS
     REBUILD = True
 
-    def __init__(self, name, temp_dir: Path = None, duration: int = None, **options):
+    def __init__(self, name, temp_dir: Path = None, duration: int = None):
         self.__name = name
         self.__is_running = False
         self.__counter = 1
@@ -144,17 +143,18 @@ class GIFCreator:
             for f in [_ for _ in self.temp_dir.glob(f'*.*') if _.suffix.upper().endswith(('EPS', 'PNG'))]:
                 [os.remove(f) for ls in regex.findall(str(f)) if ls is not None]
 
-        self._start()
-        self._save()  # init start the recording
-        turtle.ontimer(wrap_draw,
-                       t=options.get('start_after', 0))  # start immediately
-        turtle.done()
-        print('convert_eps2image...')
-        self.convert_eps2image()
-        print('make_gif...')
-        self.make_gif(fps=options.get('fps'))
-        print(f'done:{self.name}')
-        self._cleanup()
+        try:
+            self._start()
+            self._save()  # init start the recording
+            turtle.ontimer(wrap_draw, t=options.get('start_after', 0))  # start immediately
+            turtle.done()
+            print('convert_eps2image...')
+            self.convert_eps2image()
+            print('make_gif...')
+            self.make_gif(fps=options.get('fps'))
+            print(f'done:{self.name}')
+        finally:
+            self._cleanup()
         return
 
     def convert_eps2image(self):
